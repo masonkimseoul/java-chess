@@ -1,12 +1,12 @@
 package chess.model.piece;
 
-import static chess.model.Direction.DOWN;
-import static chess.model.Direction.LEFT;
-import static chess.model.Direction.RIGHT;
-import static chess.model.Direction.UP;
+import static chess.model.position.Direction.DOWN;
+import static chess.model.position.Direction.LEFT;
+import static chess.model.position.Direction.RIGHT;
+import static chess.model.position.Direction.UP;
 
-import chess.model.Direction;
-import chess.model.Position;
+import chess.model.position.Direction;
+import chess.model.position.Position;
 
 public class Rook extends Piece {
 

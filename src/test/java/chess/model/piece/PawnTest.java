@@ -2,7 +2,7 @@ package chess.model.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import chess.model.Position;
+import chess.model.position.Position;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

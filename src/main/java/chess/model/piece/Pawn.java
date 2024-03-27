@@ -1,6 +1,6 @@
 package chess.model.piece;
 
-import chess.model.Position;
+import chess.model.position.Position;
 
 public class Pawn extends Piece {
 

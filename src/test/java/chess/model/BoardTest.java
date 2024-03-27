@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import chess.dto.BoardDto;
 import chess.model.piece.Color;
 import chess.model.piece.Piece;
+import chess.model.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

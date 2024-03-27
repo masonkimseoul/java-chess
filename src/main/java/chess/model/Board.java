@@ -3,6 +3,7 @@ package chess.model;
 import chess.model.piece.Color;
 import chess.model.piece.Piece;
 import chess.model.piece.PieceType;
+import chess.model.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

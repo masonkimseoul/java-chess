@@ -1,6 +1,6 @@
 package chess.model.piece;
 
-import chess.model.Position;
+import chess.model.position.Position;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
