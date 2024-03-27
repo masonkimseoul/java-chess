@@ -2,7 +2,7 @@ package chess.controller;
 
 import chess.dto.BoardDto;
 import chess.model.Board;
-import chess.model.Command;
+import chess.view.Command;
 import chess.view.InputView;
 import chess.view.OutputView;
 import java.util.List;
