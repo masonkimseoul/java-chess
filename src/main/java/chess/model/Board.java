@@ -4,6 +4,7 @@ import chess.model.piece.Color;
 import chess.model.piece.Piece;
 import chess.model.piece.PieceType;
 import chess.model.position.Position;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class Board {
             "rnbqkbnr"
     );
     private static final Piece EMPTY_PIECE =  Piece.from(PieceType.NONE, Color.NONE);
+    private static final int MAX_ROW_COUNT = 8;
 
     private final Map<Position, Piece> board;
     private Color turn;
@@ -153,6 +155,23 @@ public class Board {
         if (targetPiece != EMPTY_PIECE) {
             throw new IllegalArgumentException("경로 상에 다른 기물이 존재합니다.");
         }
+    }
+
+    public List<Piece> findPiecesInColumn(int columnIndex) {
+        List<Piece> pieces = new ArrayList<>();
+        List<Position> positions = getPositionsInColumn(columnIndex);
+        for (int i = 0; i < MAX_ROW_COUNT; i++) {
+            pieces.add(board.get(positions.get(i)));
+        }
+        return pieces;
+    }
+
+    private List<Position> getPositionsInColumn(int columnIndex) {
+        List<Position> positions = new ArrayList<>();
+        for (int i = 0; i < MAX_ROW_COUNT; i++) {
+            positions.add(new Position(i, columnIndex));
+        }
+        return positions;
     }
 
     public Piece findPiece(Position position) {
