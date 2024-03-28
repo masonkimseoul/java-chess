@@ -26,7 +26,8 @@ class CommandTest {
     void findValidGameCommand() {
         assertAll(
                 () -> assertThat(Command.findCommand("start")).isEqualTo(Command.START),
-                () -> assertThat(Command.findCommand("end")).isEqualTo(Command.END)
+                () -> assertThat(Command.findCommand("end")).isEqualTo(Command.END),
+                () -> assertThat(Command.findCommand("status")).isEqualTo(Command.STATUS)
         );
     }
 }

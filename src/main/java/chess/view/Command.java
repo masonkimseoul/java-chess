@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum Command {
     START("start"),
     END("end"),
-    MOVE("move");
+    MOVE("move"),
+    STATUS("status");
 
     private final String displayName;
 
@@ -30,5 +31,9 @@ public enum Command {
 
     public boolean isMove() {
         return this == MOVE;
+    }
+
+    public boolean isStatus() {
+        return this == STATUS;
     }
 }
