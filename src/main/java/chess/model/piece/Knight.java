@@ -6,6 +6,7 @@ public class Knight extends Piece {
 
     private static final int FIRST_MOVEMENT = 2;
     private static final int SECOND_MOVEMENT = 1;
+    private static final double SCORE = 2.5;
 
     public Knight(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -30,5 +31,10 @@ public class Knight extends Piece {
     @Override
     public boolean canJump() {
         return true;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

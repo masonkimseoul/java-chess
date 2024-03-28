@@ -18,6 +18,8 @@ public abstract class Piece{
 
     public abstract boolean canJump();
 
+    public abstract double getScore();
+
     public static Piece from(PieceType pieceType, Color pieceColor) {
         if (pieceType == PieceType.PAWN) {
             return new Pawn(pieceType, pieceColor);

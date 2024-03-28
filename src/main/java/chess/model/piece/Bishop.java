@@ -10,6 +10,8 @@ import chess.model.position.Position;
 
 public class Bishop extends Piece {
 
+    private static final double SCORE = 3;
+
     public Bishop(PieceType pieceType, Color color) {
         super(pieceType, color);
     }
@@ -28,5 +30,10 @@ public class Bishop extends Piece {
     @Override
     public boolean canJump() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

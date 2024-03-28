@@ -12,6 +12,7 @@ public class Pawn extends Piece {
     private static final int DOWN_DOUBLE_MOVE = 2;
     private static final int WHITE_INITIAL_ROW = 6;
     private static final int BLACK_INITIAL_ROW = 1;
+    private static final double SCORE = 1;
 
     public Pawn(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -56,5 +57,10 @@ public class Pawn extends Piece {
     @Override
     public boolean canJump() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

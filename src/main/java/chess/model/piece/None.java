@@ -4,6 +4,8 @@ import chess.model.position.Position;
 
 public class None extends Piece {
 
+    private static final double SCORE = 0;
+
     protected None(PieceType pieceType) {
         super(pieceType, Color.NONE);
     }
@@ -21,5 +23,10 @@ public class None extends Piece {
     @Override
     public boolean canJump() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

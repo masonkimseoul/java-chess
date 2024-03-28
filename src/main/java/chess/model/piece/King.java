@@ -5,6 +5,7 @@ import chess.model.position.Position;
 public class King extends Piece {
 
     private static final int MAX_MOVE_RANGE = 1;
+    private static final double SCORE = 0;
 
     public King(PieceType pieceType, Color color) {
         super(pieceType, color);
@@ -25,5 +26,10 @@ public class King extends Piece {
     @Override
     public boolean canJump() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

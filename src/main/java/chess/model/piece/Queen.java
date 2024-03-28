@@ -14,6 +14,8 @@ import chess.model.position.Position;
 
 public class Queen extends Piece {
 
+    private static final double SCORE = 9;
+
     public Queen(PieceType pieceType, Color color) {
         super(pieceType, color);
     }
@@ -35,5 +37,10 @@ public class Queen extends Piece {
     @Override
     public boolean canJump() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

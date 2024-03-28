@@ -10,6 +10,8 @@ import chess.model.position.Position;
 
 public class Rook extends Piece {
 
+    private static final double SCORE = 5;
+
     public Rook(PieceType pieceType, Color color) {
         super(pieceType, color);
     }
@@ -28,5 +30,10 @@ public class Rook extends Piece {
     @Override
     public boolean canJump() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }
