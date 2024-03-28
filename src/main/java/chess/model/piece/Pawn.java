@@ -60,7 +60,10 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public double getScore() {
+    public double getScore(boolean isDuplicate) {
+        if (isDuplicate) {
+            return SCORE / 2;
+        }
         return SCORE;
     }
 }

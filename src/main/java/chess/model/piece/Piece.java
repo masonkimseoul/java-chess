@@ -1,6 +1,7 @@
 package chess.model.piece;
 
 import chess.model.position.Position;
+import java.util.Objects;
 
 public abstract class Piece{
 
@@ -18,7 +19,7 @@ public abstract class Piece{
 
     public abstract boolean canJump();
 
-    public abstract double getScore();
+    public abstract double getScore(boolean isDuplicate);
 
     public static Piece from(PieceType pieceType, Color pieceColor) {
         if (pieceType == PieceType.PAWN) {
@@ -64,6 +65,23 @@ public abstract class Piece{
 
     public boolean isBlack() {
         return color.isBlack();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return type == piece.type && color == piece.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, color);
     }
 
     @Override

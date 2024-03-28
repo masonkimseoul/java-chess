@@ -26,7 +26,7 @@ public class None extends Piece {
     }
 
     @Override
-    public double getScore() {
+    public double getScore(boolean isDuplicate) {
         return SCORE;
     }
 }
