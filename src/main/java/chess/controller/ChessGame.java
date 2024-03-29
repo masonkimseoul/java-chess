@@ -2,6 +2,8 @@ package chess.controller;
 
 import chess.dto.BoardDto;
 import chess.model.Board;
+import chess.model.Score;
+import chess.model.piece.Color;
 import chess.view.Command;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -38,6 +40,9 @@ public final class ChessGame {
         if (command.isMove() && board != null) {
             executeMove(commands, board);
         }
+        if (command.isStatus() && board != null) {
+            executeStatus(board);
+        }
         return board;
     }
 
@@ -54,6 +59,14 @@ public final class ChessGame {
         board.move(source, target);
         BoardDto boardDto = BoardDto.from(board);
         OutputView.printChessBoard(boardDto);
+    }
+
+    private void executeStatus(Board board) {
+        Score score = Score.from(board);
+        double whiteTeamScore = score.getScoreByColor(Color.WHITE);
+        double blackTeamScore = score.getScoreByColor(Color.BLACK);
+        OutputView.printGameScore(whiteTeamScore, blackTeamScore);
+        OutputView.printDominatingTeam(whiteTeamScore, blackTeamScore);
     }
 
     private boolean isRunning(Board board) {
