@@ -29,6 +29,11 @@ public class King extends Piece {
     }
 
     @Override
+    public boolean lostGoal() {
+        return true;
+    }
+
+    @Override
     public double getScore(boolean isDuplicate) {
         return SCORE;
     }

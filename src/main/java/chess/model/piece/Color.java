@@ -15,7 +15,10 @@ public enum Color {
         return WHITE;
     }
 
-    public Color changeColor() {
+    public Color changeColor(Piece piece) {
+        if (piece.lostGoal()) {
+            return NONE;
+        }
         if (this == WHITE) {
             return BLACK;
         }
@@ -35,5 +38,9 @@ public enum Color {
 
     public boolean isWhite() {
         return this == WHITE;
+    }
+
+    public boolean isNone() {
+        return this == NONE;
     }
 }

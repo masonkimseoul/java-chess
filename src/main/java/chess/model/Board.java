@@ -77,7 +77,7 @@ public class Board {
 
         board.put(target, sourcePiece);
         board.put(source, EMPTY_PIECE);
-        turn = turn.changeColor();
+        turn = turn.changeColor(targetPiece);
     }
 
     private void validate(Piece sourcePiece, Piece targetPiece, Position source, Position target) {
@@ -172,6 +172,14 @@ public class Board {
             positions.add(new Position(i, columnIndex));
         }
         return positions;
+    }
+
+    public void stopGame() {
+        turn = Color.NONE;
+    }
+
+    public boolean canContinue() {
+        return !turn.isNone();
     }
 
     public Piece findPiece(Position position) {

@@ -19,6 +19,8 @@ public abstract class Piece{
 
     public abstract boolean canJump();
 
+    public abstract boolean lostGoal();
+
     public abstract double getScore(boolean isDuplicate);
 
     public static Piece from(PieceType pieceType, Color pieceColor) {

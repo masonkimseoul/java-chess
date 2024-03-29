@@ -18,10 +18,10 @@ public final class ChessGame {
 
     public void run() {
         InputView.printGameIntro();
-        Board board = null;
+        Board board = Board.createCustomBoard(List.of(""), Color.NONE);
         do {
             board = executeGame(board);
-        } while (isRunning(board));
+        } while (board.canContinue());
     }
 
     private Board executeGame(Board board) {
@@ -32,15 +32,15 @@ public final class ChessGame {
         List<String> commands = InputView.askGameCommands();
         Command command = Command.findCommand(commands.get(COMMAND_INDEX));
         if (command.isEnd()) {
-            return null;
+            board.stopGame();
         }
         if (command.isStart()) {
             return executeStart();
         }
-        if (command.isMove() && board != null) {
+        if (command.isMove() && board.canContinue()) {
             executeMove(commands, board);
         }
-        if (command.isStatus() && board != null) {
+        if (command.isStatus() && board.canContinue()) {
             executeStatus(board);
         }
         return board;
@@ -67,10 +67,6 @@ public final class ChessGame {
         double blackTeamScore = score.getScoreByColor(Color.BLACK);
         OutputView.printGameScore(whiteTeamScore, blackTeamScore);
         OutputView.printDominatingTeam(whiteTeamScore, blackTeamScore);
-    }
-
-    private boolean isRunning(Board board) {
-        return board != null;
     }
 
     private <T> T retryOnException(Supplier<T> operation) {

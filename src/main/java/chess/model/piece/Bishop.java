@@ -33,6 +33,11 @@ public class Bishop extends Piece {
     }
 
     @Override
+    public boolean lostGoal() {
+        return false;
+    }
+
+    @Override
     public double getScore(boolean isDuplicate) {
         return SCORE;
     }

@@ -60,6 +60,11 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public boolean lostGoal() {
+        return false;
+    }
+
+    @Override
     public double getScore(boolean isDuplicate) {
         if (isDuplicate) {
             return SCORE / 2;

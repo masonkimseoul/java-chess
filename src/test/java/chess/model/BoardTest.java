@@ -137,4 +137,24 @@ class BoardTest {
 
         assertThat(actualPieces).isEqualTo(expectedPieces);
     }
+
+    @DisplayName("King을 잡으면 게임이 종료된다")
+    @Test
+    void endGameByKillKing() {
+        List<String> customBoard = List.of(
+                "....K...",
+                "........",
+                "........",
+                "........",
+                "........",
+                "........",
+                "....r...",
+                "rnbqkbn."
+        );
+        Board board = Board.createCustomBoard(customBoard, Color.WHITE);
+
+        board.move("e2", "e8");
+
+        assertThat(board.canContinue()).isFalse();
+    }
 }
