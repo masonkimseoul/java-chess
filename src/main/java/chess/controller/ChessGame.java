@@ -4,6 +4,8 @@ import chess.dto.BoardDto;
 import chess.model.Board;
 import chess.model.Score;
 import chess.model.piece.Color;
+import chess.model.piece.Piece;
+import chess.model.position.Position;
 import chess.view.Command;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -56,9 +58,22 @@ public final class ChessGame {
     private void executeMove(List<String> commands, Board board) {
         String source = commands.get(SOURCE_INDEX);
         String target = commands.get(TARGET_INDEX);
+        Piece targetPiece = board.findPiece(Position.from(target));
         board.move(source, target);
         BoardDto boardDto = BoardDto.from(board);
         OutputView.printChessBoard(boardDto);
+        if (targetPiece.lostGoal()) {
+            printWinnerIfEnd(targetPiece);
+        }
+    }
+
+    private void printWinnerIfEnd(Piece targetPiece) {
+        if (targetPiece.isEnemy(Color.BLACK)) {
+            OutputView.printWinnerTeam(Color.BLACK);
+        }
+        if (targetPiece.isEnemy(Color.WHITE)) {
+            OutputView.printWinnerTeam(Color.WHITE);
+        }
     }
 
     private void executeStatus(Board board) {

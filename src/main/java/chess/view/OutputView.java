@@ -1,6 +1,7 @@
 package chess.view;
 
 import chess.dto.BoardDto;
+import chess.model.piece.Color;
 
 public final class OutputView {
 
@@ -11,6 +12,7 @@ public final class OutputView {
     private static final String DELIMITER = " : ";
     private static final String TEAM_WINNING_MESSAGE = "이 더 우세합니다.";
     private static final String TEAM_SAME_SCORE_MESSAGE = "두 팀의 점수가 같습니다.";
+    private static final String WINNER_MESSAGE = "이 승리했습니다.";
 
     private OutputView() {
     }
@@ -39,5 +41,14 @@ public final class OutputView {
             System.out.println(TEAM_SAME_SCORE_MESSAGE);
         }
         System.out.println(NEWLINE);
+    }
+
+    public static void printWinnerTeam(Color color) {
+        if (color.isBlack()) {
+            System.out.println(BLACK_TEAM + WINNER_MESSAGE);
+        }
+        if (color.isWhite()) {
+            System.out.println(WHITE_TEAM + WINNER_MESSAGE);
+        }
     }
 }
