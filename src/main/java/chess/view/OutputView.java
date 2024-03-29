@@ -40,7 +40,7 @@ public final class OutputView {
         if (whiteScore == blackScore) {
             System.out.println(TEAM_SAME_SCORE_MESSAGE);
         }
-        System.out.println(NEWLINE);
+        System.out.print(NEWLINE);
     }
 
     public static void printWinnerTeam(Color color) {
