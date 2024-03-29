@@ -21,7 +21,7 @@ public class Board {
             "pppppppp",
             "rnbqkbnr"
     );
-    private static final Piece EMPTY_PIECE =  Piece.from(PieceType.NONE, Color.NONE);
+    private static final Piece EMPTY_PIECE = Piece.from(PieceType.NONE, Color.NONE);
     private static final int MAX_ROW_COUNT = 8;
 
     private final Map<Position, Piece> board;

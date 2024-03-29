@@ -41,7 +41,7 @@ public class Score {
         double score = 0;
         Map<Piece, Integer> pieceWithCount = pieces.stream()
                 .collect(groupingBy(Function.identity(), summingInt(e -> UNIQUE_COUNT)));
-        for(Piece piece : pieces) {
+        for (Piece piece : pieces) {
             boolean isDuplicate = pieceWithCount.get(piece) > UNIQUE_COUNT;
             score += pieceScoreByColor(piece, color, isDuplicate);
         }

@@ -3,7 +3,7 @@ package chess.model.piece;
 import chess.model.position.Position;
 import java.util.Objects;
 
-public abstract class Piece{
+public abstract class Piece {
 
     protected final PieceType type;
     protected final Color color;
