@@ -69,11 +69,11 @@ public class ChessGameService {
         return Board.createCustomBoard(customBoard, chessGameDto.turn());
     }
 
-    public static List<String> convertBoard(char[][] chessBoard) {
+    private List<String> convertBoard(char[][] chessBoard) {
         List<String> customBoard = new ArrayList<>();
         for (char[] row : chessBoard) {
-            String rowAsString = new String(row);
-            customBoard.add(rowAsString);
+            String convertedRow = String.valueOf(row);
+            customBoard.add(convertedRow);
         }
         return customBoard;
     }
