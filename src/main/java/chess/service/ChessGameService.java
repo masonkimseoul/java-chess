@@ -15,6 +15,7 @@ public class ChessGameService {
     private static final char FIRST_ROW_INDEX = 'a';
     private static final int MAX_COLUMN_COUNT = 8;
     private static final int MAX_ROW_COUNT = 8;
+    private static final int INDEX_PREFIX = 1;
 
     private final ChessGameDao chessGameDao;
     private final PieceDao pieceDao;
@@ -28,7 +29,7 @@ public class ChessGameService {
         updateGame(boardDto.getTurn());
         String convertedBoard = boardDto.toString().replaceAll(System.lineSeparator(), "");
         for (int i = 0; i < MAX_ROW_COUNT; i++) {
-            int pieceRow = i + 1;
+            int pieceRow = i + INDEX_PREFIX;
             createPieceInOneRow(convertedBoard, String.valueOf(pieceRow), i);
         }
     }
@@ -56,7 +57,7 @@ public class ChessGameService {
         List<PieceDto> pieceDtos = pieceDao.findAllPieceByGameId(chessGameDto.id());
         char[][] boardArray = new char[MAX_ROW_COUNT][MAX_COLUMN_COUNT];
         for (PieceDto pieceDto : pieceDtos) {
-            int rowIndex = Integer.parseInt(pieceDto.positionRow()) - 1;
+            int rowIndex = Integer.parseInt(pieceDto.positionRow()) - INDEX_PREFIX;
             int columnIndex = pieceDto.positionColumn().charAt(0) - FIRST_ROW_INDEX;
             boardArray[rowIndex][columnIndex] = pieceDto.pieceAppearance().charAt(0);
         }
