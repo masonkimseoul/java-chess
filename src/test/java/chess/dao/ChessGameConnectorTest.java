@@ -11,9 +11,9 @@ class ChessGameConnectorTest {
     @DisplayName("DB 접속에 성공한다")
     @Test
     void connectToDB() {
-        String databaseName = "chess";
+        ChessGameConnector chessGameConnector = new ChessGameConnector();
 
-        Connection connection = ChessGameConnector.getConnection(databaseName);
+        Connection connection = chessGameConnector.getConnection();
 
         assertThat(connection).isNotNull();
     }

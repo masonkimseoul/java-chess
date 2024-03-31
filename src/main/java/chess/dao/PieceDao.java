@@ -13,7 +13,6 @@ import java.util.List;
 
 public class PieceDao {
 
-    private static final String DATABASE_NAME = "chess";
     private static final String TABLE_NAME = "piece";
 
     private final ChessGameConnector connector;
@@ -26,7 +25,7 @@ public class PieceDao {
         String query = "INSERT INTO "
                 + TABLE_NAME
                 + " (game_id, piece_appearance, position_column, position_row) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = connector.getConnection(DATABASE_NAME)) {
+        try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, pieceDto.gameId());
             statement.setString(2, pieceDto.piece().toString());
@@ -43,7 +42,7 @@ public class PieceDao {
                 + TABLE_NAME
                 + "WHERE game_id = "
                 + gameId;
-        try (Connection connection = connector.getConnection(DATABASE_NAME)) {
+        try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
@@ -69,7 +68,7 @@ public class PieceDao {
 
     public void deletePiecesByGameId(Long gameId) {
         String query = "DELETE FROM " + TABLE_NAME + "WHERE game_id = " + gameId;
-        try (Connection connection = connector.getConnection(DATABASE_NAME)) {
+        try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
         } catch (SQLException e) {
