@@ -1,19 +1,22 @@
 DROP TABLE IF EXISTS piece;
 DROP TABLE IF EXISTS chessgame;
-USE chess;
+USE
+chess;
 
-CREATE TABLE chessgame (
-    id BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE chessgame
+(
+    id        BIGINT NOT NULL AUTO_INCREMENT,
     game_turn VARCHAR(5),
     PRIMARY KEY (id)
 );
 
-CREATE TABLE piece (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    game_id BIGINT NOT NULL,
+CREATE TABLE piece
+(
+    id               BIGINT NOT NULL AUTO_INCREMENT,
+    game_id          BIGINT NOT NULL,
     piece_appearance VARCHAR(1),
-    position_column VARCHAR(1),
-    position_row VARCHAR(1),
+    position_column  VARCHAR(1),
+    position_row     VARCHAR(1),
     PRIMARY KEY (id),
-    FOREIGN KEY (game_id) REFERENCES chessgame(id) ON DELETE CASCADE
+    FOREIGN KEY (game_id) REFERENCES chessgame (id) ON DELETE CASCADE
 );

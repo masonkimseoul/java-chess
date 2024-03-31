@@ -58,7 +58,7 @@ public class ChessGameService {
     public Board loadGame() {
         ChessGameDto chessGameDto = chessGameDao.findLastGame();
         List<PieceDto> pieceDtos = pieceDao.findAllPieceByGameId(chessGameDto.id());
-        char [][] boardArray = new char[8][8];
+        char[][] boardArray = new char[8][8];
         for (PieceDto pieceDto : pieceDtos) {
             int rowIndex = Integer.parseInt(pieceDto.positionRow()) - 1;
             int columnIndex = pieceDto.positionColumn().charAt(0) - FIRST_ROW_INDEX;

@@ -38,10 +38,7 @@ public class PieceDao {
     }
 
     public List<PieceDto> findAllPieceByGameId(Long gameId) {
-        String query = "SELECT * FROM "
-                + TABLE_NAME
-                + " WHERE game_id = "
-                + gameId;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE game_id = " + gameId;
         try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
