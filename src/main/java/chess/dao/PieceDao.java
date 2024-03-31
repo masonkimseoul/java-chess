@@ -65,14 +65,4 @@ public class PieceDao {
         Color color = Color.findColorByName(pieceAppearance);
         return Piece.from(pieceType, color);
     }
-
-    public void deletePiecesByGameId(Long gameId) {
-        String query = "DELETE FROM " + TABLE_NAME + " WHERE game_id = " + gameId;
-        try (Connection connection = connector.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("기물을 삭제할 수 없습니다: ", e);
-        }
-    }
 }
