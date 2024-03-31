@@ -22,29 +22,20 @@ public class PieceDao {
         this.connector = connector;
     }
 
-    public void create(PieceDto pieceDto, Long gameId) {
+    public void create(PieceDto pieceDto) {
         String query = "INSERT INTO "
                 + TABLE_NAME
                 + " (game_id, piece_appearance, position_column, position_row) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connector.getConnection(DATABASE_NAME)) {
             PreparedStatement statement = connection.prepareStatement(query);
-            List<String> convertedPieceInfo = convertPieceToPieceDto(pieceDto);
-            statement.setLong(1, gameId);
-            statement.setString(2, convertedPieceInfo.get(0));
-            statement.setString(3, convertedPieceInfo.get(1));
-            statement.setString(4, convertedPieceInfo.get(2));
+            statement.setLong(1, pieceDto.gameId());
+            statement.setString(2, pieceDto.piece().toString());
+            statement.setString(3, pieceDto.positionColumn());
+            statement.setString(4, pieceDto.positionRow());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("기물을 생성할 수 없습니다: ", e);
         }
-    }
-
-    private List<String> convertPieceToPieceDto(PieceDto pieceDto) {
-        Piece piece = pieceDto.piece();
-        String pieceAppearance = piece.toString();
-        String positionColumn = String.valueOf(pieceDto.positionColumn());
-        String positionRow = String.valueOf(pieceDto.positionRow());
-        return List.of(pieceAppearance, positionColumn, positionRow);
     }
 
     public List<PieceDto> findAllPieceByGameId(Long gameId) {
