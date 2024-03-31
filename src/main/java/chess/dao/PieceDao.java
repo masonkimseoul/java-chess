@@ -28,7 +28,7 @@ public class PieceDao {
         try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, pieceDto.gameId());
-            statement.setString(2, pieceDto.piece().toString());
+            statement.setString(2, pieceDto.pieceAppearance());
             statement.setString(3, pieceDto.positionColumn());
             statement.setString(4, pieceDto.positionRow());
             statement.executeUpdate();
@@ -48,18 +48,11 @@ public class PieceDao {
                 String pieceAppearance = resultSet.getString("piece_appearance");
                 String positionRow = resultSet.getString("position_column");
                 String positionColumn = resultSet.getString("position_row");
-                Piece piece = convertPieceDtoToPiece(pieceAppearance);
-                pieces.add(new PieceDto(gameId, piece, positionRow, positionColumn));
+                pieces.add(new PieceDto(gameId, pieceAppearance, positionRow, positionColumn));
             }
             return pieces;
         } catch (SQLException e) {
             throw new RuntimeException("기물을 찾을 수 없습니다: ", e);
         }
-    }
-
-    private Piece convertPieceDtoToPiece(String pieceAppearance) {
-        PieceType pieceType = PieceType.findPieceTypeByName(pieceAppearance);
-        Color color = Color.findColorByName(pieceAppearance);
-        return Piece.from(pieceType, color);
     }
 }

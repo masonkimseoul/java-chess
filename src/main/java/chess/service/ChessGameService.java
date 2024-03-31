@@ -7,8 +7,6 @@ import chess.dto.ChessGameDto;
 import chess.dto.PieceDto;
 import chess.model.Board;
 import chess.model.piece.Color;
-import chess.model.piece.Piece;
-import chess.model.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class ChessGameService {
     public void saveChessGame(BoardDto boardDto) {
         updateGame(boardDto.getTurn());
         String convertedBoard = boardDto.toString().replaceAll(System.lineSeparator(), "");
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < MAX_ROW_COUNT; i++) {
             int pieceRow = i + 1;
             createPieceInOneRow(convertedBoard, String.valueOf(pieceRow), i);
         }
@@ -41,10 +39,7 @@ public class ChessGameService {
             int pieceIndex = rowIndex * MAX_COLUMN_COUNT + j;
             String pieceColumn = String.valueOf((char) (FIRST_ROW_INDEX + j));
             String pieceAppearance = String.valueOf(convertedBoard.charAt(pieceIndex));
-            PieceType pieceType = PieceType.findPieceTypeByName(pieceAppearance);
-            Color color = Color.findColorByName(pieceAppearance);
-            Piece piece = Piece.from(pieceType, color);
-            pieceDao.create(new PieceDto(chessGameDto.id(), piece, pieceColumn, pieceRow));
+            pieceDao.create(new PieceDto(chessGameDto.id(), pieceAppearance, pieceColumn, pieceRow));
         }
     }
 
@@ -63,7 +58,7 @@ public class ChessGameService {
         for (PieceDto pieceDto : pieceDtos) {
             int rowIndex = Integer.parseInt(pieceDto.positionRow()) - 1;
             int columnIndex = pieceDto.positionColumn().charAt(0) - FIRST_ROW_INDEX;
-            boardArray[rowIndex][columnIndex] = pieceDto.piece().toString().charAt(0);
+            boardArray[rowIndex][columnIndex] = pieceDto.pieceAppearance().charAt(0);
         }
         List<String> customBoard = convertBoard(boardArray);
         return Board.createCustomBoard(customBoard, chessGameDto.turn());
