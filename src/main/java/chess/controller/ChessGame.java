@@ -50,7 +50,7 @@ public final class ChessGame {
 
     private Board executeStart() {
         Board board = Board.createInitialBoard();
-        BoardDto boardDto = BoardDto.from(board);
+        BoardDto boardDto = BoardDto.from(board, board.getTurn());
         OutputView.printChessBoard(boardDto);
         return board;
     }
@@ -60,7 +60,7 @@ public final class ChessGame {
         String target = commands.get(TARGET_INDEX);
         Piece targetPiece = board.findPiece(Position.from(target));
         board.move(source, target);
-        BoardDto boardDto = BoardDto.from(board);
+        BoardDto boardDto = BoardDto.from(board, board.getTurn());
         OutputView.printChessBoard(boardDto);
         if (targetPiece.lostGoal()) {
             printWinnerIfEnd(targetPiece);

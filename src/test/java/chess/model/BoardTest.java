@@ -20,7 +20,7 @@ class BoardTest {
     @Test
     void createPiecesOnBoard() {
         Board board = Board.createInitialBoard();
-        BoardDto boardDto = BoardDto.from(board);
+        BoardDto boardDto = BoardDto.from(board, board.getTurn());
 
         String expected = """
                 RNBQKBNR

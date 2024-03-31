@@ -185,4 +185,8 @@ public class Board {
     public Piece findPiece(Position position) {
         return board.get(position);
     }
+
+    public Color getTurn() {
+        return turn;
+    }
 }
