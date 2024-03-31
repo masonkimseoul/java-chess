@@ -1,0 +1,6 @@
+package chess.dto;
+
+import chess.model.piece.Color;
+
+public record ChessGameDto(Long id, Color turn) {
+}
