@@ -25,7 +25,7 @@ public class PieceDao {
     public void create(PieceDto pieceDto, Long gameId) {
         String query = "INSERT INTO "
                 + TABLE_NAME
-                + " (game_id, piece_appearance, position_row, position_column) VALUES (?, ?, ?, ?, ?)";
+                + " (game_id, piece_appearance, position_column, position_row) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connector.getConnection(DATABASE_NAME)) {
             PreparedStatement statement = connection.prepareStatement(query);
             List<String> convertedPieceInfo = convertPieceToPieceDto(pieceDto);
@@ -42,9 +42,9 @@ public class PieceDao {
     private List<String> convertPieceToPieceDto(PieceDto pieceDto) {
         Piece piece = pieceDto.piece();
         String pieceAppearance = piece.toString();
-        String positionRow = String.valueOf(pieceDto.positionRow());
         String positionColumn = String.valueOf(pieceDto.positionColumn());
-        return List.of(pieceAppearance, positionRow, positionColumn);
+        String positionRow = String.valueOf(pieceDto.positionRow());
+        return List.of(pieceAppearance, positionColumn, positionRow);
     }
 
     public List<PieceDto> findAllPieceByGameId(Long gameId) {
@@ -59,8 +59,8 @@ public class PieceDao {
             List<PieceDto> pieces = new ArrayList<>();
             while (resultSet.next()) {
                 String pieceAppearance = resultSet.getString("piece_appearance");
-                String positionRow = resultSet.getString("position_row");
-                String positionColumn = resultSet.getString("position_column");
+                String positionRow = resultSet.getString("position_column");
+                String positionColumn = resultSet.getString("position_row");
                 Piece piece = convertPieceDtoToPiece(pieceAppearance);
                 pieces.add(new PieceDto(gameId, piece, positionRow, positionColumn));
             }
