@@ -24,7 +24,7 @@ public class PieceDao {
     public void create(PieceDto pieceDto) {
         String query = "INSERT INTO "
                 + TABLE_NAME
-                + " (game_id, piece_appearance, position_column, position_row) VALUES (?, ?, ?, ?, ?)";
+                + " (game_id, piece_appearance, position_column, position_row) VALUES (?, ?, ?, ?)";
         try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, pieceDto.gameId());
@@ -40,7 +40,7 @@ public class PieceDao {
     public List<PieceDto> findAllPieceByGameId(Long gameId) {
         String query = "SELECT * FROM "
                 + TABLE_NAME
-                + "WHERE game_id = "
+                + " WHERE game_id = "
                 + gameId;
         try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -67,7 +67,7 @@ public class PieceDao {
     }
 
     public void deletePiecesByGameId(Long gameId) {
-        String query = "DELETE FROM " + TABLE_NAME + "WHERE game_id = " + gameId;
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE game_id = " + gameId;
         try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();

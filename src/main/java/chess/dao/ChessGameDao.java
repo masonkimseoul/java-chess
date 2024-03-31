@@ -29,11 +29,10 @@ public class ChessGameDao {
     }
 
     public ChessGameDto findLastGame() {
-        String query = "SELECT * FROM " + TABLE_NAME + "WHERE id = MAX(id)";
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY id DESC LIMIT 1";
         try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-
             if (!resultSet.next()) {
                 return null;
             }
@@ -45,7 +44,7 @@ public class ChessGameDao {
     }
 
     public void deleteGameByGameId(Long gameId) {
-        String query = "DELETE FROM " + TABLE_NAME + "WHERE game_id = " + gameId;
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE id=" + gameId;
         try (Connection connection = connector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
