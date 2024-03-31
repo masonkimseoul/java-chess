@@ -44,4 +44,28 @@ public class ChessGameDao {
             throw new RuntimeException("게임을 찾을 수 없습니다: ", e);
         }
     }
+
+    public void deleteGameByGameId(Long gameId) {
+        String query = "DELETE FROM " + TABLE_NAME + "WHERE game_id = " + gameId;
+        try (Connection connection = connector.getConnection(DATABASE_NAME)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임을 삭제할 수 없습니다: ", e);
+        }
+    }
+
+    public int countGames() {
+        String query = "SELECT COUNT(*) AS game_count FROM " + TABLE_NAME;
+        try (Connection connection = connector.getConnection(DATABASE_NAME)) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("game_count");
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 수를 계산할 수 없습니다: ", e);
+        }
+    }
 }
