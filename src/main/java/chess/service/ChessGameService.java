@@ -16,6 +16,7 @@ public class ChessGameService {
 
     private static final char FIRST_ROW_INDEX = 'a';
     private static final int MAX_COLUMN_COUNT = 8;
+    private static final int MAX_ROW_COUNT = 8;
 
     private final ChessGameDao chessGameDao;
     private final PieceDao pieceDao;
@@ -36,7 +37,7 @@ public class ChessGameService {
 
     private void createPieceInOneRow(String convertedBoard, String pieceRow, int rowIndex) {
         ChessGameDto chessGameDto = chessGameDao.findLastGame();
-        for (int j = 0; j < 8; j++) {
+        for (int j = 0; j < MAX_COLUMN_COUNT; j++) {
             int pieceIndex = rowIndex * MAX_COLUMN_COUNT + j;
             String pieceColumn = String.valueOf((char) (FIRST_ROW_INDEX + j));
             String pieceAppearance = String.valueOf(convertedBoard.charAt(pieceIndex));
@@ -58,7 +59,7 @@ public class ChessGameService {
     public Board loadGame() {
         ChessGameDto chessGameDto = chessGameDao.findLastGame();
         List<PieceDto> pieceDtos = pieceDao.findAllPieceByGameId(chessGameDto.id());
-        char[][] boardArray = new char[8][8];
+        char[][] boardArray = new char[MAX_ROW_COUNT][MAX_COLUMN_COUNT];
         for (PieceDto pieceDto : pieceDtos) {
             int rowIndex = Integer.parseInt(pieceDto.positionRow()) - 1;
             int columnIndex = pieceDto.positionColumn().charAt(0) - FIRST_ROW_INDEX;
