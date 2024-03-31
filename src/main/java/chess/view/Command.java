@@ -6,7 +6,9 @@ public enum Command {
     START("start"),
     END("end"),
     MOVE("move"),
-    STATUS("status");
+    STATUS("status"),
+    SAVE("save"),
+    LOAD("load");
 
     private final String displayName;
 
@@ -35,5 +37,13 @@ public enum Command {
 
     public boolean isStatus() {
         return this == STATUS;
+    }
+
+    public boolean isSave() {
+        return this == SAVE;
+    }
+
+    public boolean isLoad() {
+        return this == LOAD;
     }
 }

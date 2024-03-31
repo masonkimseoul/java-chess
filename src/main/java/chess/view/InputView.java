@@ -15,7 +15,12 @@ public final class InputView {
             + NEWLINE
             + "> 게임 이동 : move source위치 target위치 - 예. move b2 b3"
             + NEWLINE
-            + "> 게임 점수 현황 : status";
+            + "> 게임 점수 현황 : status"
+            + NEWLINE
+            + "> 게임 저장하기 : save"
+            + NEWLINE
+            + "> 게임 불러오기 : load"
+            + NEWLINE;
     private static final String COMMAND_DELIMITER = " ";
 
     private InputView() {

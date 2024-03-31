@@ -1,11 +1,15 @@
 package chess.controller;
 
+import chess.dao.ChessGameConnector;
+import chess.dao.ChessGameDao;
+import chess.dao.PieceDao;
 import chess.dto.BoardDto;
 import chess.model.Board;
 import chess.model.Score;
 import chess.model.piece.Color;
 import chess.model.piece.Piece;
 import chess.model.position.Position;
+import chess.service.ChessGameService;
 import chess.view.Command;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -17,6 +21,15 @@ public final class ChessGame {
     private static final int COMMAND_INDEX = 0;
     private static final int SOURCE_INDEX = 1;
     private static final int TARGET_INDEX = 2;
+
+    private final ChessGameService chessGameService;
+
+    public ChessGame() {
+        ChessGameConnector chessGameConnector = new ChessGameConnector();
+        ChessGameDao chessGameDao = new ChessGameDao(chessGameConnector);
+        PieceDao pieceDao = new PieceDao(chessGameConnector);
+        this.chessGameService = new ChessGameService(chessGameDao, pieceDao);
+    }
 
     public void run() {
         InputView.printGameIntro();
@@ -44,6 +57,12 @@ public final class ChessGame {
         }
         if (command.isStatus() && board.canContinue()) {
             executeStatus(board);
+        }
+        if (command.isSave() && board.canContinue()) {
+            executeSave(board);
+        }
+        if (command.isLoad()) {
+            return executeLoad();
         }
         return board;
     }
@@ -82,6 +101,18 @@ public final class ChessGame {
         double blackTeamScore = score.getScoreByColor(Color.BLACK);
         OutputView.printGameScore(whiteTeamScore, blackTeamScore);
         OutputView.printDominatingTeam(whiteTeamScore, blackTeamScore);
+    }
+
+    private void executeSave(Board board) {
+        BoardDto boardDto = BoardDto.from(board, board.getTurn());
+        chessGameService.saveChessGame(boardDto);
+    }
+
+    private Board executeLoad() {
+        Board board = chessGameService.loadGame();
+        BoardDto boardDto = BoardDto.from(board, board.getTurn());
+        OutputView.printChessBoard(boardDto);
+        return board;
     }
 
     private <T> T retryOnException(Supplier<T> operation) {
