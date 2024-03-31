@@ -34,7 +34,7 @@ public class ChessGameDao {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
-                return null;
+                throw new RuntimeException("게임을 찾을 수 없습니다");
             }
             Color gameTurn = Color.valueOf(resultSet.getString("game_turn"));
             return new ChessGameDto(resultSet.getLong(1), gameTurn);
