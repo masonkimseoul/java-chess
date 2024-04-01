@@ -19,9 +19,7 @@ public class ChessGameConnector {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("DB에 연결할 수 없습니다.", e);
         }
     }
 }
