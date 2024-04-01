@@ -16,7 +16,7 @@ import chess.view.OutputView;
 import java.util.List;
 import java.util.function.Supplier;
 
-public final class ChessGame {
+public final class ChessGameController {
 
     private static final int COMMAND_INDEX = 0;
     private static final int SOURCE_INDEX = 1;
@@ -24,7 +24,7 @@ public final class ChessGame {
 
     private final ChessGameService chessGameService;
 
-    public ChessGame() {
+    public ChessGameController() {
         ChessGameConnector chessGameConnector = new ChessGameConnector();
         ChessGameDao chessGameDao = new ChessGameDao(chessGameConnector);
         PieceDao pieceDao = new PieceDao(chessGameConnector);
