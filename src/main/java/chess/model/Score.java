@@ -17,7 +17,7 @@ public class Score {
     private final double whiteTeamScore;
     private final double blackTeamScore;
 
-    public Score(double whiteTeamScore, double blackTeamScore) {
+    private Score(double whiteTeamScore, double blackTeamScore) {
         this.whiteTeamScore = whiteTeamScore;
         this.blackTeamScore = blackTeamScore;
     }
