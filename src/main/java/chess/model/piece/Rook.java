@@ -7,6 +7,7 @@ import static chess.model.position.Direction.UP;
 
 import chess.model.position.Direction;
 import chess.model.position.Position;
+import java.util.List;
 
 public class Rook extends Piece {
 
@@ -38,7 +39,7 @@ public class Rook extends Piece {
     }
 
     @Override
-    public double getScore(boolean isDuplicate) {
+    public double getScore(List<Piece> pieces) {
         return SCORE;
     }
 }

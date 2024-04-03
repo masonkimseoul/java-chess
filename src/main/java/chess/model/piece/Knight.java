@@ -1,6 +1,7 @@
 package chess.model.piece;
 
 import chess.model.position.Position;
+import java.util.List;
 
 public class Knight extends Piece {
 
@@ -39,7 +40,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public double getScore(boolean isDuplicate) {
+    public double getScore(List<Piece> pieces) {
         return SCORE;
     }
 }

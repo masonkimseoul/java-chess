@@ -1,6 +1,7 @@
 package chess.model.piece;
 
 import chess.model.position.Position;
+import java.util.List;
 
 public class Pawn extends Piece {
 
@@ -12,6 +13,7 @@ public class Pawn extends Piece {
     private static final int DOWN_DOUBLE_MOVE = 2;
     private static final int WHITE_INITIAL_ROW = 6;
     private static final int BLACK_INITIAL_ROW = 1;
+    private static final int UNIQUE_COUNT = 1;
     private static final double SCORE = 1;
 
     public Pawn(PieceType pieceType, Color color) {
@@ -65,10 +67,21 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public double getScore(boolean isDuplicate) {
-        if (isDuplicate) {
+    public double getScore(List<Piece> pieces) {
+        int count = 0;
+        for (Piece piece : pieces) {
+            count += isSameTypeAndColor(piece);
+        }
+        if (count > UNIQUE_COUNT) {
             return SCORE / 2;
         }
         return SCORE;
+    }
+
+    private int isSameTypeAndColor(Piece piece) {
+        if (piece.equals(this)) {
+            return UNIQUE_COUNT;
+        }
+        return 0;
     }
 }

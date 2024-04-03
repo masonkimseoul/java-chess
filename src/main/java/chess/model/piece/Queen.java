@@ -11,6 +11,7 @@ import static chess.model.position.Direction.UP_RIGHT;
 
 import chess.model.position.Direction;
 import chess.model.position.Position;
+import java.util.List;
 
 public class Queen extends Piece {
 
@@ -45,7 +46,7 @@ public class Queen extends Piece {
     }
 
     @Override
-    public double getScore(boolean isDuplicate) {
+    public double getScore(List<Piece> pieces) {
         return SCORE;
     }
 }

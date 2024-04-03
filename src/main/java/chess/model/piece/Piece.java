@@ -1,6 +1,7 @@
 package chess.model.piece;
 
 import chess.model.position.Position;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -21,7 +22,7 @@ public abstract class Piece {
 
     public abstract boolean lostGoal();
 
-    public abstract double getScore(boolean isDuplicate);
+    public abstract double getScore(List<Piece> pieces);
 
     public static Piece from(PieceType pieceType, Color pieceColor) {
         if (pieceType == PieceType.PAWN) {
