@@ -1,28 +1,27 @@
-package chess.dto;
+package chess.model.board;
 
-import chess.model.Board;
 import chess.model.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RankDto {
+public class RowMapper {
 
     private static final int MAX_INDEX = 7;
     private static final String DELIMITER = "";
 
-    private final List<String> rank;
+    private final List<String> row;
 
-    public RankDto(List<String> rank) {
-        this.rank = rank;
+    public RowMapper(List<String> row) {
+        this.row = row;
     }
 
-    public static RankDto of(Board board, int row) {
-        List<String> rank = new ArrayList<>();
+    public static RowMapper of(Board board, int rowIndex) {
+        List<String> row = new ArrayList<>();
         for (int i = 0; i <= MAX_INDEX; i++) {
-            Position position = new Position(row, i);
-            rank.add(findPieceName(board, position));
+            Position position = new Position(rowIndex, i);
+            row.add(findPieceName(board, position));
         }
-        return new RankDto(rank);
+        return new RowMapper(row);
     }
 
     private static String findPieceName(Board board, Position position) {
@@ -32,6 +31,6 @@ public class RankDto {
 
     @Override
     public String toString() {
-        return String.join(DELIMITER, rank);
+        return String.join(DELIMITER, row);
     }
 }

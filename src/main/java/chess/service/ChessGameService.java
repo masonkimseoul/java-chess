@@ -2,10 +2,10 @@ package chess.service;
 
 import chess.dao.ChessGameDao;
 import chess.dao.PieceDao;
-import chess.dto.BoardDto;
 import chess.dto.ChessGameDto;
 import chess.dto.PieceDto;
-import chess.model.Board;
+import chess.model.board.Board;
+import chess.model.board.BoardMapper;
 import chess.model.piece.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +25,9 @@ public class ChessGameService {
         this.pieceDao = pieceDao;
     }
 
-    public void saveChessGame(BoardDto boardDto) {
-        updateGame(boardDto.getTurn());
-        String convertedBoard = boardDto.toString().replaceAll(System.lineSeparator(), "");
+    public void saveChessGame(BoardMapper boardMapper) {
+        updateGame(boardMapper.getTurn());
+        String convertedBoard = boardMapper.toString().replaceAll(System.lineSeparator(), "");
         for (int i = 0; i < MAX_ROW_COUNT; i++) {
             int pieceRow = i + INDEX_PREFIX;
             createPieceInOneRow(convertedBoard, String.valueOf(pieceRow), i);

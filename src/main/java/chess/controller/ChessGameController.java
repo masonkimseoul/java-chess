@@ -3,9 +3,9 @@ package chess.controller;
 import chess.dao.ChessGameConnector;
 import chess.dao.ChessGameDao;
 import chess.dao.PieceDao;
-import chess.dto.BoardDto;
-import chess.model.Board;
-import chess.model.Score;
+import chess.model.board.Board;
+import chess.model.board.BoardMapper;
+import chess.model.board.Score;
 import chess.model.piece.Color;
 import chess.model.piece.Piece;
 import chess.model.position.Position;
@@ -69,8 +69,8 @@ public final class ChessGameController {
 
     private Board executeStart() {
         Board board = Board.createInitialBoard();
-        BoardDto boardDto = BoardDto.from(board, board.getTurn());
-        OutputView.printChessBoard(boardDto);
+        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
+        OutputView.printChessBoard(boardMapper);
         return board;
     }
 
@@ -79,8 +79,8 @@ public final class ChessGameController {
         String target = commands.get(TARGET_INDEX);
         Piece targetPiece = board.findPiece(Position.from(target));
         board.move(source, target);
-        BoardDto boardDto = BoardDto.from(board, board.getTurn());
-        OutputView.printChessBoard(boardDto);
+        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
+        OutputView.printChessBoard(boardMapper);
         if (targetPiece.lostGoal()) {
             printWinnerIfEnd(targetPiece);
         }
@@ -104,14 +104,14 @@ public final class ChessGameController {
     }
 
     private void executeSave(Board board) {
-        BoardDto boardDto = BoardDto.from(board, board.getTurn());
-        chessGameService.saveChessGame(boardDto);
+        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
+        chessGameService.saveChessGame(boardMapper);
     }
 
     private Board executeLoad() {
         Board board = chessGameService.loadGame();
-        BoardDto boardDto = BoardDto.from(board, board.getTurn());
-        OutputView.printChessBoard(boardDto);
+        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
+        OutputView.printChessBoard(boardMapper);
         return board;
     }
 

@@ -1,4 +1,4 @@
-package chess.model;
+package chess.model.board;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingInt;

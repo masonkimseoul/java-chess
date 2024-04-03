@@ -1,6 +1,6 @@
 package chess.view;
 
-import chess.dto.BoardDto;
+import chess.model.board.BoardMapper;
 import chess.model.piece.Color;
 
 public final class OutputView {
@@ -21,8 +21,8 @@ public final class OutputView {
         System.out.println(ERROR_PREFIX + e.getMessage() + NEWLINE);
     }
 
-    public static void printChessBoard(BoardDto boardDto) {
-        System.out.println(boardDto.toString() + NEWLINE);
+    public static void printChessBoard(BoardMapper boardMapper) {
+        System.out.println(boardMapper.toString() + NEWLINE);
     }
 
     public static void printGameScore(double whiteScore, double blackScore) {

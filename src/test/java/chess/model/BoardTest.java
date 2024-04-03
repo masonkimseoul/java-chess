@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chess.dto.BoardDto;
+import chess.model.board.Board;
+import chess.model.board.BoardMapper;
 import chess.model.piece.Color;
 import chess.model.piece.Piece;
 import chess.model.piece.PieceType;
@@ -20,7 +21,7 @@ class BoardTest {
     @Test
     void createPiecesOnBoard() {
         Board board = Board.createInitialBoard();
-        BoardDto boardDto = BoardDto.from(board, board.getTurn());
+        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
 
         String expected = """
                 RNBQKBNR
@@ -32,7 +33,7 @@ class BoardTest {
                 pppppppp
                 rnbqkbnr""";
 
-        assertThat(boardDto).hasToString(expected);
+        assertThat(boardMapper).hasToString(expected);
     }
 
     @DisplayName("White 차례에 Black 기물 이동 시 예외가 발생한다.")

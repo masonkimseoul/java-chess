@@ -1,32 +1,31 @@
-package chess.dto;
+package chess.model.board;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
-import chess.model.Board;
 import chess.model.piece.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardDto {
+public class BoardMapper {
 
     private static final int MAX_INDEX = 7;
     private static final String DELIMITER = "\n";
 
-    private final List<RankDto> ranks;
+    private final List<RowMapper> rows;
     private final Color turn;
 
-    public BoardDto(List<RankDto> rank, Color turn) {
-        this.ranks = rank;
+    public BoardMapper(List<RowMapper> rows, Color turn) {
+        this.rows = rows;
         this.turn = turn;
     }
 
-    public static BoardDto from(Board board, Color turn) {
-        List<RankDto> ranks = new ArrayList<>();
+    public static BoardMapper from(Board board, Color turn) {
+        List<RowMapper> rows = new ArrayList<>();
         for (int i = 0; i <= MAX_INDEX; i++) {
-            ranks.add(RankDto.of(board, i));
+            rows.add(RowMapper.of(board, i));
         }
-        return new BoardDto(ranks, turn);
+        return new BoardMapper(rows, turn);
     }
 
     public Color getTurn() {
@@ -35,8 +34,8 @@ public class BoardDto {
 
     @Override
     public String toString() {
-        return ranks.stream()
-                .map(RankDto::toString)
+        return rows.stream()
+                .map(RowMapper::toString)
                 .collect(collectingAndThen(toList(), list -> String.join(DELIMITER, list)));
     }
 }
