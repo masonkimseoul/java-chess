@@ -70,7 +70,7 @@ public final class ChessGameController {
     private Board executeStart() {
         Board board = Board.createInitialBoard();
         BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        OutputView.printChessBoard(boardMapper);
+        OutputView.printChessBoard(boardMapper.toString());
         return board;
     }
 
@@ -80,7 +80,7 @@ public final class ChessGameController {
         Piece targetPiece = board.findPiece(Position.from(target));
         board.move(source, target);
         BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        OutputView.printChessBoard(boardMapper);
+        OutputView.printChessBoard(boardMapper.toString());
         if (targetPiece.lostGoal()) {
             printWinnerIfEnd(targetPiece);
         }
@@ -111,7 +111,7 @@ public final class ChessGameController {
     private Board executeLoad() {
         Board board = chessGameService.loadGame();
         BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        OutputView.printChessBoard(boardMapper);
+        OutputView.printChessBoard(boardMapper.toString());
         return board;
     }
 
