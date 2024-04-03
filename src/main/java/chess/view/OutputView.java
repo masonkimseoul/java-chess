@@ -1,13 +1,12 @@
 package chess.view;
 
-import chess.model.piece.Color;
-
 public final class OutputView {
 
     private static final String NEWLINE = System.lineSeparator();
     private static final String ERROR_PREFIX = "[ERROR] ";
-    private static final String WHITE_TEAM = "WHITE 팀";
-    private static final String BLACK_TEAM = "BLACK 팀";
+    private static final String WHITE_TEAM_NAME = "WHITE ";
+    private static final String BLACK_TEAM_NAME = "BLACK ";
+    private static final String TEAM_PREFIX = " 팀";
     private static final String DELIMITER = " : ";
     private static final String TEAM_WINNING_MESSAGE = "이 더 우세합니다.";
     private static final String TEAM_SAME_SCORE_MESSAGE = "두 팀의 점수가 같습니다.";
@@ -25,16 +24,16 @@ public final class OutputView {
     }
 
     public static void printGameScore(double whiteScore, double blackScore) {
-        System.out.println(WHITE_TEAM + DELIMITER + whiteScore);
-        System.out.println(BLACK_TEAM + DELIMITER + blackScore);
+        System.out.println(WHITE_TEAM_NAME + TEAM_PREFIX + DELIMITER + whiteScore);
+        System.out.println(BLACK_TEAM_NAME + TEAM_PREFIX + DELIMITER + blackScore);
     }
 
     public static void printDominatingTeam(double whiteScore, double blackScore) {
         if (whiteScore > blackScore) {
-            System.out.println(WHITE_TEAM + TEAM_WINNING_MESSAGE);
+            System.out.println(WHITE_TEAM_NAME + TEAM_PREFIX + TEAM_WINNING_MESSAGE);
         }
         if (whiteScore < blackScore) {
-            System.out.println(BLACK_TEAM + TEAM_WINNING_MESSAGE);
+            System.out.println(BLACK_TEAM_NAME + TEAM_PREFIX + TEAM_WINNING_MESSAGE);
         }
         if (whiteScore == blackScore) {
             System.out.println(TEAM_SAME_SCORE_MESSAGE);
@@ -42,12 +41,7 @@ public final class OutputView {
         System.out.print(NEWLINE);
     }
 
-    public static void printWinnerTeam(Color color) {
-        if (color.isBlack()) {
-            System.out.println(BLACK_TEAM + WINNER_MESSAGE);
-        }
-        if (color.isWhite()) {
-            System.out.println(WHITE_TEAM + WINNER_MESSAGE);
-        }
+    public static void printWinnerTeam(String colorName) {
+        System.out.println(colorName + TEAM_PREFIX + WINNER_MESSAGE);
     }
 }

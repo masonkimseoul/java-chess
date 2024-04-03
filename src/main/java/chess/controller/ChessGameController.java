@@ -3,24 +3,19 @@ package chess.controller;
 import chess.dao.ChessGameConnector;
 import chess.dao.ChessGameDao;
 import chess.dao.PieceDao;
-import chess.model.board.Board;
-import chess.model.board.BoardMapper;
-import chess.model.board.Score;
-import chess.model.piece.Color;
-import chess.model.piece.Piece;
-import chess.model.position.Position;
 import chess.service.ChessGameService;
 import chess.view.Command;
 import chess.view.InputView;
 import chess.view.OutputView;
 import java.util.List;
-import java.util.function.Supplier;
 
 public final class ChessGameController {
 
     private static final int COMMAND_INDEX = 0;
     private static final int SOURCE_INDEX = 1;
     private static final int TARGET_INDEX = 2;
+    private static final int WHITE_TEAM_SCORE_INDEX = 0;
+    private static final int BLACK_TEAM_SCORE_INDEX = 1;
 
     private final ChessGameService chessGameService;
 
@@ -33,94 +28,84 @@ public final class ChessGameController {
 
     public void run() {
         InputView.printGameIntro();
-        Board board = Board.createCustomBoard(List.of(""), Color.NONE);
         do {
-            board = executeGame(board);
-        } while (board.canContinue());
+            executeGame();
+        } while (chessGameService.canContinueChessGame());
     }
 
-    private Board executeGame(Board board) {
-        return retryOnException(() -> executeCommand(board));
+    private void executeGame() {
+        retryOnException(this::executeCommand);
     }
 
-    private Board executeCommand(Board board) {
+    private void executeCommand() {
         List<String> commands = InputView.askGameCommands();
         Command command = Command.findCommand(commands.get(COMMAND_INDEX));
-        if (command.isEnd()) {
-            board.stopGame();
-        }
+        boolean isGameCanContinue = chessGameService.canContinueChessGame();
         if (command.isStart()) {
-            return executeStart();
+            executeStart();
         }
-        if (command.isMove() && board.canContinue()) {
-            executeMove(commands, board);
+        if (command.isEnd()) {
+            executeEnd();
         }
-        if (command.isStatus() && board.canContinue()) {
-            executeStatus(board);
+        if (command.isMove() && isGameCanContinue) {
+            executeMove(commands);
         }
-        if (command.isSave() && board.canContinue()) {
-            executeSave(board);
+        if (command.isStatus() && isGameCanContinue) {
+            executeStatus();
+        }
+        if (command.isSave() && isGameCanContinue) {
+            executeSave();
         }
         if (command.isLoad()) {
-            return executeLoad();
+            executeLoad();
         }
-        return board;
     }
 
-    private Board executeStart() {
-        Board board = Board.createInitialBoard();
-        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        OutputView.printChessBoard(boardMapper.toString());
-        return board;
+    private void executeStart() {
+        chessGameService.startChessGame();
+        OutputView.printChessBoard(chessGameService.getChessBoard());
     }
 
-    private void executeMove(List<String> commands, Board board) {
+    private void executeEnd() {
+        chessGameService.endChessGame();
+    }
+
+    private void executeMove(List<String> commands) {
         String source = commands.get(SOURCE_INDEX);
         String target = commands.get(TARGET_INDEX);
-        Piece targetPiece = board.findPiece(Position.from(target));
-        board.move(source, target);
-        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        OutputView.printChessBoard(boardMapper.toString());
-        if (targetPiece.lostGoal()) {
-            printWinnerIfEnd(targetPiece);
+
+        chessGameService.moveChessPiece(source, target);
+        OutputView.printChessBoard(chessGameService.getChessBoard());
+
+        if (chessGameService.judgeGameEnd()) {
+            OutputView.printWinnerTeam(chessGameService.getWinnerTeam());
         }
     }
 
-    private void printWinnerIfEnd(Piece targetPiece) {
-        if (targetPiece.isEnemy(Color.BLACK)) {
-            OutputView.printWinnerTeam(Color.BLACK);
-        }
-        if (targetPiece.isEnemy(Color.WHITE)) {
-            OutputView.printWinnerTeam(Color.WHITE);
-        }
-    }
+    private void executeStatus() {
+        List<Double> allTeamScore = chessGameService.calculateAllTeamScore();
+        double whiteTeamScore = allTeamScore.get(WHITE_TEAM_SCORE_INDEX);
+        double blackTeamScore = allTeamScore.get(BLACK_TEAM_SCORE_INDEX);
 
-    private void executeStatus(Board board) {
-        Score score = Score.from(board);
-        double whiteTeamScore = score.getScoreByColor(Color.WHITE);
-        double blackTeamScore = score.getScoreByColor(Color.BLACK);
         OutputView.printGameScore(whiteTeamScore, blackTeamScore);
         OutputView.printDominatingTeam(whiteTeamScore, blackTeamScore);
     }
 
-    private void executeSave(Board board) {
-        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        chessGameService.saveChessGame(boardMapper);
+    private void executeSave() {
+        chessGameService.saveChessGame();
     }
 
-    private Board executeLoad() {
-        Board board = chessGameService.loadGame();
-        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        OutputView.printChessBoard(boardMapper.toString());
-        return board;
+    private void executeLoad() {
+        chessGameService.loadGame();
+        OutputView.printChessBoard(chessGameService.getChessBoard());
     }
 
-    private <T> T retryOnException(Supplier<T> operation) {
+    private void retryOnException(Runnable operation) {
         try {
-            return operation.get();
+            operation.run();
         } catch (IllegalArgumentException e) {
             OutputView.printException(e);
-            return retryOnException(operation);
+            retryOnException(operation);
         }
     }
 }

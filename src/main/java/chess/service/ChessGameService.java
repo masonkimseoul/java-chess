@@ -6,7 +6,11 @@ import chess.dto.ChessGameDto;
 import chess.dto.PieceDto;
 import chess.model.board.Board;
 import chess.model.board.BoardMapper;
+import chess.model.board.Score;
 import chess.model.piece.Color;
+import chess.model.piece.Piece;
+import chess.model.piece.PieceType;
+import chess.model.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +23,46 @@ public class ChessGameService {
 
     private final ChessGameDao chessGameDao;
     private final PieceDao pieceDao;
+    private Board board;
+    private Piece lastTargetPiece;
 
     public ChessGameService(ChessGameDao chessGameDao, PieceDao pieceDao) {
         this.chessGameDao = chessGameDao;
         this.pieceDao = pieceDao;
+        this.board = Board.createCustomBoard(List.of(""), Color.NONE);
+        this.lastTargetPiece = Piece.from(PieceType.NONE, Color.NONE);
     }
 
-    public void saveChessGame(BoardMapper boardMapper) {
+    public boolean canContinueChessGame() {
+        return board.canContinue();
+    }
+
+    public void startChessGame() {
+        board = Board.createInitialBoard();
+    }
+
+    public void endChessGame() {
+        board.stopGame();
+    }
+
+    public void moveChessPiece(String sourcePosition, String targetPosition) {
+        lastTargetPiece = board.findPiece(Position.from(targetPosition));
+        board.move(sourcePosition, targetPosition);
+    }
+
+    public boolean judgeGameEnd() {
+        return lastTargetPiece.lostGoal();
+    }
+
+    public List<Double> calculateAllTeamScore() {
+        Score score = Score.from(board);
+        double whiteTeamScore = score.getScoreByColor(Color.WHITE);
+        double blackTeamScore = score.getScoreByColor(Color.BLACK);
+        return List.of(whiteTeamScore, blackTeamScore);
+    }
+
+    public void saveChessGame() {
+        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
         updateGame(boardMapper.getTurn());
         String convertedBoard = boardMapper.toString().replaceAll(System.lineSeparator(), "");
         for (int i = 0; i < MAX_ROW_COUNT; i++) {
@@ -52,7 +89,7 @@ public class ChessGameService {
         chessGameDao.createGame(turn);
     }
 
-    public Board loadGame() {
+    public void loadGame() {
         ChessGameDto chessGameDto = chessGameDao.findLastGame();
         List<PieceDto> pieceDtos = pieceDao.findAllPieceByGameId(chessGameDto.id());
         char[][] boardArray = new char[MAX_ROW_COUNT][MAX_COLUMN_COUNT];
@@ -62,7 +99,7 @@ public class ChessGameService {
             boardArray[rowIndex][columnIndex] = pieceDto.pieceAppearance().charAt(0);
         }
         List<String> customBoard = convertBoard(boardArray);
-        return Board.createCustomBoard(customBoard, chessGameDto.turn());
+        board = Board.createCustomBoard(customBoard, chessGameDto.turn());
     }
 
     private List<String> convertBoard(char[][] chessBoard) {
@@ -72,5 +109,20 @@ public class ChessGameService {
             customBoard.add(convertedRow);
         }
         return customBoard;
+    }
+
+    public String getChessBoard() {
+        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
+        return boardMapper.toString();
+    }
+
+    public String getWinnerTeam() {
+        if (lastTargetPiece.isEnemy(Color.BLACK)) {
+            return Color.BLACK.name();
+        }
+        if (lastTargetPiece.isEnemy(Color.WHITE)) {
+            return Color.WHITE.name();
+        }
+        return Color.NONE.name();
     }
 }
