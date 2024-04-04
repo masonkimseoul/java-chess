@@ -5,7 +5,7 @@ import chess.dao.ChessGameDto;
 import chess.dao.PieceDao;
 import chess.dao.PieceDto;
 import chess.model.board.Board;
-import chess.model.board.BoardMapper;
+import chess.model.board.BoardFormatter;
 import chess.model.board.Score;
 import chess.model.piece.Color;
 import chess.model.piece.Piece;
@@ -62,9 +62,9 @@ public class ChessGameService {
     }
 
     public void saveChessGame() {
-        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        updateGame(boardMapper.getTurn());
-        String convertedBoard = boardMapper.toString().replaceAll(System.lineSeparator(), "");
+        BoardFormatter boardFormatter = BoardFormatter.from(board, board.getTurn());
+        updateGame(boardFormatter.getTurn());
+        String convertedBoard = boardFormatter.toString().replaceAll(System.lineSeparator(), "");
         for (int i = 0; i < MAX_ROW_COUNT; i++) {
             int pieceRow = i + INDEX_PREFIX;
             createPieceInOneRow(convertedBoard, String.valueOf(pieceRow), i);
@@ -112,8 +112,8 @@ public class ChessGameService {
     }
 
     public String getChessBoard() {
-        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
-        return boardMapper.toString();
+        BoardFormatter boardFormatter = BoardFormatter.from(board, board.getTurn());
+        return boardFormatter.toString();
     }
 
     public String getWinnerTeam() {

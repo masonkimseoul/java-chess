@@ -19,7 +19,7 @@ class BoardTest {
     @Test
     void createPiecesOnBoard() {
         Board board = Board.createInitialBoard();
-        BoardMapper boardMapper = BoardMapper.from(board, board.getTurn());
+        BoardFormatter boardFormatter = BoardFormatter.from(board, board.getTurn());
 
         String expected = """
                 RNBQKBNR
@@ -31,7 +31,7 @@ class BoardTest {
                 pppppppp
                 rnbqkbnr""";
 
-        assertThat(boardMapper).hasToString(expected);
+        assertThat(boardFormatter).hasToString(expected);
     }
 
     @DisplayName("White 차례에 Black 기물 이동 시 예외가 발생한다.")

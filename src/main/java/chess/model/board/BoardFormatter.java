@@ -7,25 +7,25 @@ import chess.model.piece.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardMapper {
+public class BoardFormatter {
 
     private static final int MAX_INDEX = 7;
     private static final String DELIMITER = "\n";
 
-    private final List<RowMapper> rows;
+    private final List<RowFormatter> rows;
     private final Color turn;
 
-    public BoardMapper(List<RowMapper> rows, Color turn) {
+    public BoardFormatter(List<RowFormatter> rows, Color turn) {
         this.rows = rows;
         this.turn = turn;
     }
 
-    public static BoardMapper from(Board board, Color turn) {
-        List<RowMapper> rows = new ArrayList<>();
+    public static BoardFormatter from(Board board, Color turn) {
+        List<RowFormatter> rows = new ArrayList<>();
         for (int i = 0; i <= MAX_INDEX; i++) {
-            rows.add(RowMapper.of(board, i));
+            rows.add(RowFormatter.of(board, i));
         }
-        return new BoardMapper(rows, turn);
+        return new BoardFormatter(rows, turn);
     }
 
     public Color getTurn() {
@@ -35,7 +35,7 @@ public class BoardMapper {
     @Override
     public String toString() {
         return rows.stream()
-                .map(RowMapper::toString)
+                .map(RowFormatter::toString)
                 .collect(collectingAndThen(toList(), list -> String.join(DELIMITER, list)));
     }
 }
