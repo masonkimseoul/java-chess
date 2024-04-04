@@ -24,6 +24,13 @@ public enum PieceType {
                 .orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 기물 이름입니다."));
     }
 
+    public static PieceType convertToPiece(String pieceName) {
+        return Arrays.stream(PieceType.values())
+                .filter(color -> color.name().equalsIgnoreCase(pieceName))
+                .findFirst()
+                .orElse(PieceType.NONE);
+    }
+
     public boolean isNone() {
         return this == NONE;
     }

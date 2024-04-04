@@ -1,4 +1,6 @@
 package chess.dao;
 
-public record PieceDto(Long gameId, String pieceAppearance, String positionColumn, String positionRow) {
+import chess.model.piece.Piece;
+
+public record PieceDto(Long gameId, Piece piece, String positionColumn, String positionRow) {
 }

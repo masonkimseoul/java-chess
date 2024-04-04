@@ -137,6 +137,26 @@ class BoardTest {
         assertThat(actualPieces).isEqualTo(expectedPieces);
     }
 
+    @DisplayName("같은 Column에 존재하는 Piece들을 가져온다")
+    @Test
+    void findPiecesInSameRow() {
+        Board board = Board.createInitialBoard();
+        List<Piece> expectedPieces = List.of(
+                Piece.from(PieceType.ROOK, Color.BLACK),
+                Piece.from(PieceType.KNIGHT, Color.BLACK),
+                Piece.from(PieceType.BISHOP, Color.BLACK),
+                Piece.from(PieceType.QUEEN, Color.BLACK),
+                Piece.from(PieceType.KING, Color.BLACK),
+                Piece.from(PieceType.BISHOP, Color.BLACK),
+                Piece.from(PieceType.KNIGHT, Color.BLACK),
+                Piece.from(PieceType.ROOK, Color.BLACK)
+        );
+
+        List<Piece> actualPieces = board.findPiecesInRow(0);
+
+        assertThat(actualPieces).isEqualTo(expectedPieces);
+    }
+
     @DisplayName("King을 잡으면 게임이 종료된다")
     @Test
     void endGameByKillKing() {

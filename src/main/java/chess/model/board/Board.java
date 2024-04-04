@@ -23,6 +23,7 @@ public class Board {
     );
     private static final Piece EMPTY_PIECE = Piece.from(PieceType.NONE, Color.NONE);
     private static final int MAX_ROW_COUNT = 8;
+    private static final int MAX_COLUMN_COUNT = 8;
 
     private final Map<Position, Piece> board;
     private Color turn;
@@ -54,7 +55,7 @@ public class Board {
             Position position = new Position(rowIndex, j);
             char pieceName = row.charAt(j);
             PieceType pieceType = PieceType.findPieceTypeByName(String.valueOf(pieceName));
-            Color pieceColor = Color.findColorByName(String.valueOf(pieceName));
+            Color pieceColor = Color.findColorByPieceName(String.valueOf(pieceName));
             Piece piece = putPieceByType(pieceType, pieceColor);
             board.put(position, piece);
         }
@@ -155,6 +156,23 @@ public class Board {
         if (targetPiece != EMPTY_PIECE) {
             throw new IllegalArgumentException("경로 상에 다른 기물이 존재합니다.");
         }
+    }
+
+    public List<Piece> findPiecesInRow(int rowIndex) {
+        List<Piece> pieces = new ArrayList<>();
+        List<Position> positions = getPositionsInRow(rowIndex);
+        for (int i = 0; i < MAX_COLUMN_COUNT; i++) {
+            pieces.add(board.get(positions.get(i)));
+        }
+        return pieces;
+    }
+
+    private List<Position> getPositionsInRow(int rowIndex) {
+        List<Position> positions = new ArrayList<>();
+        for (int i = 0; i < MAX_COLUMN_COUNT; i++) {
+            positions.add(new Position(rowIndex, i));
+        }
+        return positions;
     }
 
     public List<Piece> findPiecesInColumn(int columnIndex) {

@@ -62,22 +62,20 @@ public class ChessGameService {
     }
 
     public void saveChessGame() {
-        BoardFormatter boardFormatter = BoardFormatter.from(board, board.getTurn());
-        updateGame(boardFormatter.getTurn());
-        String convertedBoard = boardFormatter.toString().replaceAll(System.lineSeparator(), "");
+        updateGame(board.getTurn());
         for (int i = 0; i < MAX_ROW_COUNT; i++) {
             int pieceRow = i + INDEX_PREFIX;
-            createPieceInOneRow(convertedBoard, String.valueOf(pieceRow), i);
+            List<Piece> piecesInOneRow = board.findPiecesInRow(i);
+            createPieceInOneRow(piecesInOneRow, String.valueOf(pieceRow));
         }
     }
 
-    private void createPieceInOneRow(String convertedBoard, String pieceRow, int rowIndex) {
+    private void createPieceInOneRow(List<Piece> piecesInOneRow, String pieceRow) {
         ChessGameDto chessGameDto = chessGameDao.findLastGame();
         for (int j = 0; j < MAX_COLUMN_COUNT; j++) {
-            int pieceIndex = rowIndex * MAX_COLUMN_COUNT + j;
             String pieceColumn = String.valueOf((char) (FIRST_ROW_INDEX + j));
-            String pieceAppearance = String.valueOf(convertedBoard.charAt(pieceIndex));
-            pieceDao.create(new PieceDto(chessGameDto.id(), pieceAppearance, pieceColumn, pieceRow));
+            Piece piece = piecesInOneRow.get(j);
+            pieceDao.create(new PieceDto(chessGameDto.id(), piece, pieceColumn, pieceRow));
         }
     }
 
@@ -96,7 +94,8 @@ public class ChessGameService {
         for (PieceDto pieceDto : pieceDtos) {
             int rowIndex = Integer.parseInt(pieceDto.positionRow()) - INDEX_PREFIX;
             int columnIndex = pieceDto.positionColumn().charAt(0) - FIRST_ROW_INDEX;
-            boardArray[rowIndex][columnIndex] = pieceDto.pieceAppearance().charAt(0);
+            Piece piece = pieceDto.piece();
+            boardArray[rowIndex][columnIndex] = piece.toString().charAt(0);
         }
         List<String> customBoard = convertBoard(boardArray);
         board = Board.createCustomBoard(customBoard, chessGameDto.turn());
