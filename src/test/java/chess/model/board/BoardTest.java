@@ -19,7 +19,7 @@ class BoardTest {
     @Test
     void createPiecesOnBoard() {
         Board board = Board.createInitialBoard();
-        BoardFormatter boardFormatter = BoardFormatter.from(board, board.getTurn());
+        BoardFormatter boardFormatter = BoardFormatter.from(board);
 
         String expected = """
                 RNBQKBNR

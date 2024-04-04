@@ -111,7 +111,7 @@ public class ChessGameService {
     }
 
     public String getChessBoard() {
-        BoardFormatter boardFormatter = BoardFormatter.from(board, board.getTurn());
+        BoardFormatter boardFormatter = BoardFormatter.from(board);
         return boardFormatter.toString();
     }
 
