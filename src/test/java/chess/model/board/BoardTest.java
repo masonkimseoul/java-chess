@@ -1,12 +1,10 @@
-package chess.model;
+package chess.model.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import chess.model.board.Board;
-import chess.model.board.BoardMapper;
 import chess.model.piece.Color;
 import chess.model.piece.Piece;
 import chess.model.piece.PieceType;
