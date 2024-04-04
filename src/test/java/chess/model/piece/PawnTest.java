@@ -3,6 +3,7 @@ package chess.model.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import chess.model.position.Position;
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -94,5 +95,43 @@ class PawnTest {
                 Arguments.of(new Position(1, 0), new Position(2, 1), true),
                 Arguments.of(new Position(1, 0), new Position(0, 1), false)
         );
+    }
+
+    @DisplayName("같은 Column 안에 같은 색깔의 Pawn이 하나만 존재한다면 1점을 반환한다")
+    @Test
+    void singleBlackPawnInSameColumn() {
+        Piece pieceForCheck = Piece.from(PieceType.PAWN, Color.BLACK);
+
+        List<Piece> pieces = List.of(
+                Piece.from(PieceType.KNIGHT, Color.BLACK),
+                Piece.from(PieceType.NONE, Color.NONE),
+                Piece.from(PieceType.BISHOP, Color.BLACK),
+                Piece.from(PieceType.NONE, Color.NONE),
+                Piece.from(PieceType.NONE, Color.NONE),
+                Piece.from(PieceType.PAWN, Color.WHITE),
+                Piece.from(PieceType.NONE, Color.NONE),
+                pieceForCheck
+        );
+
+        assertThat(pieceForCheck.getScore(pieces)).isEqualTo(1);
+    }
+
+    @DisplayName("같은 Column 안에 같은 색깔의 Pawn이 여러 개 존재한다면 0.5점을 반환한다")
+    @Test
+    void multipleBlackPawnInSameColumn() {
+        Piece pieceForCheck = Piece.from(PieceType.PAWN, Color.BLACK);
+
+        List<Piece> pieces = List.of(
+                Piece.from(PieceType.KNIGHT, Color.BLACK),
+                Piece.from(PieceType.NONE, Color.NONE),
+                Piece.from(PieceType.BISHOP, Color.BLACK),
+                Piece.from(PieceType.NONE, Color.NONE),
+                Piece.from(PieceType.NONE, Color.NONE),
+                Piece.from(PieceType.PAWN, Color.BLACK),
+                Piece.from(PieceType.NONE, Color.NONE),
+                pieceForCheck
+        );
+
+        assertThat(pieceForCheck.getScore(pieces)).isEqualTo(0.5);
     }
 }
