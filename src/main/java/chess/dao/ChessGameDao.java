@@ -1,6 +1,5 @@
 package chess.dao;
 
-import chess.dto.ChessGameDto;
 import chess.model.piece.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

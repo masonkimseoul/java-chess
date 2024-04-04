@@ -1,9 +1,9 @@
 package chess.service;
 
 import chess.dao.ChessGameDao;
+import chess.dao.ChessGameDto;
 import chess.dao.PieceDao;
-import chess.dto.ChessGameDto;
-import chess.dto.PieceDto;
+import chess.dao.PieceDto;
 import chess.model.board.Board;
 import chess.model.board.BoardMapper;
 import chess.model.board.Score;
